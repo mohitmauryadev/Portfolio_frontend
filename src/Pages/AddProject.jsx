@@ -6,17 +6,13 @@ const AddProject = () => {
     title: "",
     description: "",
     link: "",
-    image: null, // file upload
+    image: "", // ✅ now image URL instead of file
   });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "image") {
-      setForm({ ...form, image: files[0] });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -24,15 +20,19 @@ const AddProject = () => {
     setLoading(true);
 
     try {
-      const formData = new FormData();
-      formData.append("title", form.title);
-      formData.append("description", form.description);
-      formData.append("link", form.link);
-      formData.append("image", form.image);
-
-      const res = await axios.post("https://portfolio-backend-tl63.onrender.com/api/project-input", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      // ✅ send JSON body directly (no FormData)
+      const res = await axios.post(
+        "https://portfolio-backend-tl63.onrender.com/api/project-input",
+        {
+          title: form.title,
+          description: form.description,
+          link: form.link,
+          image: form.image, // image as URL
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       alert(res.data.message);
 
@@ -40,12 +40,10 @@ const AddProject = () => {
         title: "",
         description: "",
         link: "",
-        image: null,
+        image: "",
       });
-
-      // Reset file input manually
-      document.getElementById("imageInput").value = "";
     } catch (err) {
+      console.error(err);
       alert(err.response?.data?.message || "Error adding project");
     } finally {
       setLoading(false);
@@ -58,6 +56,7 @@ const AddProject = () => {
         <h2 className="text-3xl font-bold text-white mb-6 text-center">
           Add New Project
         </h2>
+
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -68,6 +67,7 @@ const AddProject = () => {
             className="p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-cyan-400"
             required
           />
+
           <textarea
             name="description"
             value={form.description}
@@ -77,24 +77,36 @@ const AddProject = () => {
             className="p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-cyan-400"
             required
           ></textarea>
+
           <input
-            type="text"
+            type="url"
             name="link"
             value={form.link}
             onChange={handleChange}
-            placeholder="Project Link"
+            placeholder="Project Link (GitHub / Live URL)"
             className="p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-cyan-400"
             required
           />
+
           <input
-            type="file"
-            id="imageInput"
+            type="url"
             name="image"
-            accept="image/*"
+            value={form.image}
             onChange={handleChange}
+            placeholder="Project Image URL (from Google/CDN)"
             className="p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-cyan-400"
             required
           />
+
+          {/* ✅ Optional live preview */}
+          {form.image && (
+            <img
+              src={form.image}
+              alt="Project Preview"
+              className="w-full h-48 object-cover rounded-lg border border-gray-700"
+            />
+          )}
+
           <button
             type="submit"
             disabled={loading}
