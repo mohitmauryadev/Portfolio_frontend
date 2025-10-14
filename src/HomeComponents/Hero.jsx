@@ -88,8 +88,8 @@ const Hero = () => {
                 </motion.a>
 
                 <motion.a
-                     href="/public/My_Resume.docx"
-                    download="My_Resume.docx"
+                     href="/public/Mohit_Maurya_resume.pdf"
+                    download="Mohit_Maurya_resume.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
 
