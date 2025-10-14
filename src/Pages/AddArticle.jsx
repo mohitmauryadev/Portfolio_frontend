@@ -7,17 +7,13 @@ const AddArticle = () => {
     author: "",
     description1: "",
     description2: "",
-    image: null, // file upload
+    image: "", // ✅ image URL instead of file
   });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "image") {
-      setForm({ ...form, image: files[0] });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -25,16 +21,20 @@ const AddArticle = () => {
     setLoading(true);
 
     try {
-      const formData = new FormData();
-      formData.append("title", form.title);
-      formData.append("author", form.author);
-      formData.append("description1", form.description1);
-      formData.append("description2", form.description2);
-      formData.append("image", form.image);
-
-      const res = await axios.post("https://portfolio-backend-tl63.onrender.com/api/article-input", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      // ✅ Send JSON instead of FormData
+      const res = await axios.post(
+        "https://portfolio-backend-tl63.onrender.com/api/article-input",
+        {
+          title: form.title,
+          author: form.author,
+          description1: form.description1,
+          description2: form.description2,
+          image: form.image, // ✅ sending URL directly
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       alert(res.data.message);
 
@@ -43,11 +43,8 @@ const AddArticle = () => {
         author: "",
         description1: "",
         description2: "",
-        image: null,
+        image: "",
       });
-
-      // Reset file input manually
-      document.getElementById("imageInput").value = "";
     } catch (err) {
       alert(err.response?.data?.message || "Error adding article");
     } finally {
@@ -61,6 +58,7 @@ const AddArticle = () => {
         <h2 className="text-3xl font-bold text-white mb-6 text-center">
           Add New Article
         </h2>
+
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -81,14 +79,24 @@ const AddArticle = () => {
             required
           />
           <input
-            type="file"
-            id="imageInput"
+            type="url"
             name="image"
-            accept="image/*"
+            value={form.image}
             onChange={handleChange}
+            placeholder="Article Image URL (from Google/CDN)"
             className="p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-cyan-400"
             required
           />
+
+          {/* ✅ Optional image preview */}
+          {form.image && (
+            <img
+              src={form.image}
+              alt="Preview"
+              className="w-full h-48 object-cover rounded-lg border border-gray-700"
+            />
+          )}
+
           <textarea
             name="description1"
             value={form.description1}
@@ -98,6 +106,7 @@ const AddArticle = () => {
             className="p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-cyan-400"
             required
           ></textarea>
+
           <textarea
             name="description2"
             value={form.description2}
@@ -107,6 +116,7 @@ const AddArticle = () => {
             className="p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-cyan-400"
             required
           ></textarea>
+
           <button
             type="submit"
             disabled={loading}
