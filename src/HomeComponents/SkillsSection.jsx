@@ -30,7 +30,7 @@ const SkillsSection = () => {
   return (
     <section
       id="skills-section"
-      className="relative min-h-screen flex flex-col justify-center items-center text-center px-4 overflow-hidden bg-gradient-to-br from-[#0a0f1f] via-[#14162e] to-[#020617] text-white"
+      className="relative min-h-screen flex flex-col justify-center items-center text-center px-4 overflow-hidden bg-gradient-to-br from-[#0a0f1f] via-[#14162e] to-[#020617] text-white pt-14 pb-14"
     >
       {/* Glass Light Effect Overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.08),_transparent_60%)]" />
