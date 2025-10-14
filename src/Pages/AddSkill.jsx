@@ -2,16 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const AddSkill = () => {
-  const [form, setForm] = useState({ name: "", description: "", image: null });
+  const [form, setForm] = useState({ name: "", description: "", imageUrl: "" });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "image") {
-      setForm({ ...form, image: files[0] });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -19,19 +15,23 @@ const AddSkill = () => {
     setLoading(true);
 
     try {
-      const formData = new FormData();
-      formData.append("name", form.name);
-      formData.append("description", form.description);
-      formData.append("image", form.image);
+      // Send data as JSON (no FormData)
+      const res = await axios.post(
+        "https://portfolio-backend-tl63.onrender.com/api/skills-input",
+        {
+          name: form.name,
+          description: form.description,
+          image: form.imageUrl, // send image URL
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
-      const res = await axios.post("https://portfolio-backend-tl63.onrender.com/api/skills-input", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      alert(res.data.message || "Skill added successfully!");
 
-      alert(res.data.message);
-
-      setForm({ name: "", description: "", image: null });
-      document.getElementById("imageInput").value = "";
+      // Reset form
+      setForm({ name: "", description: "", imageUrl: "" });
     } catch (err) {
       alert(err.response?.data?.message || "Error adding skill");
     } finally {
@@ -43,7 +43,9 @@ const AddSkill = () => {
     <div className="min-h-screen flex justify-center items-start bg-gray-900 p-6 pt-28">
       <div className="bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full p-6">
         <h2 className="text-3xl font-bold text-white mb-6 text-center">Add New Skill</h2>
+
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          {/* Skill Name */}
           <input
             type="text"
             name="name"
@@ -53,6 +55,8 @@ const AddSkill = () => {
             className="p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-400"
             required
           />
+
+          {/* Description */}
           <textarea
             name="description"
             value={form.description}
@@ -62,15 +66,19 @@ const AddSkill = () => {
             className="p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-400"
             required
           />
+
+          {/* Image URL Field */}
           <input
-            type="file"
-            id="imageInput"
-            name="image"
-            accept="image/*"
+            type="url"
+            name="imageUrl"
+            value={form.imageUrl}
             onChange={handleChange}
+            placeholder="Image URL (Paste from Google)"
             className="p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-400"
             required
           />
+
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
