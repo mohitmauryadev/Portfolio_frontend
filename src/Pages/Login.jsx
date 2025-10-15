@@ -1,11 +1,7 @@
+
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-const ADMIN_CREDENTIALS = {
-  email: "mohitmauryabbdu@gmail.com",
-  password: "Nexovate@AnujMaurya",    
-};
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -21,14 +17,20 @@ const Login = () => {
     setError("");
 
     try {
-      const res = await axios.post("https://portfolio-backend-tl63.onrender.com/api/login", form);
+      const res = await axios.post(
+        "https://portfolio-backend-tl63.onrender.com/api/login",
+        form
+      );
       const userData = res.data.data;
       localStorage.setItem("user", JSON.stringify(userData));
 
-      // Admin check
+      // ✅ Secure admin check from .env
+      const adminEmail = process.env.REACT_APP_ADMIN_EMAIL;
+      const adminPassword = process.env.REACT_APP_ADMIN_PASSWORD;
+
       if (
-        userData.email === ADMIN_CREDENTIALS.email &&
-        userData.password === ADMIN_CREDENTIALS.password
+        userData.email === adminEmail &&
+        userData.password === adminPassword
       ) {
         navigate("/admin"); // AdminDashboard route
       } else {
