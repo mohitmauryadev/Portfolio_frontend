@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const bubbles = [
   { src: "https://st2.depositphotos.com/1004174/7566/i/450/depositphotos_75664411-stock-photo-programming-concept.jpg", alt: "JavaScript" },
-  { src: "https://w0.peakpx.com/wallpaper/157/626/HD-wallpaper-java-glitter-logo-programming-language-grid-metal-background-java-creative-programming-language-signs-java-logo.jpg", alt: "Java" },
+  { src: "https://t3.ftcdn.net/jpg/04/51/12/88/360_F_451128839_vmKOyil368UoXcac46W7aaqelTtLuNFk.jpg", alt: "Java" },
   { src: "https://img.freepik.com/premium-photo/python-programming-code-abstract-technology-background_926199-2202275.jpg", alt: "Python" },
   { src: "https://elazizi.com/images/react-native-libraries.png", alt: "React" },
   { src: "https://static.vecteezy.com/system/resources/thumbnails/052/003/464/small_2x/ai-technology-the-future-is-now-free-video.jpg", alt: "AI" },
