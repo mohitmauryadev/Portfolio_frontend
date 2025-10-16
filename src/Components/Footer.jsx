@@ -69,14 +69,14 @@ const Footer = () => {
               </button>
             </li>
             <li>
-              <button
+              <a
                  href="https://drive.google.com/file/d/1hNt7AbjJdh9hX3f4-23RYFC42P2vESJi/view?usp=drivesdk"
                     target="_blank"
                     rel="noopener noreferrer"
                 className="hover:text-cyan-400 transition-all bg-transparent border-none focus:outline-none"
               >
                 Resume
-              </button>
+              </a>
             </li>
           </ul>
         </div>
