@@ -69,14 +69,9 @@ const Footer = () => {
               </button>
             </li>
             <li>
-              <a
-                 href="https://drive.google.com/file/d/1hNt7AbjJdh9hX3f4-23RYFC42P2vESJi/view?usp=drivesdk"
+             <a  href="https://drive.google.com/file/d/1hNt7AbjJdh9hX3f4-23RYFC42P2vESJi/view?usp=drivesdk"
                     target="_blank"
-                    rel="noopener noreferrer"
-                className="hover:text-cyan-400 transition-all bg-transparent border-none focus:outline-none"
-              >
-                Resume
-              </a>
+                    rel="noopener noreferrer" className="hover:text-cyan-400 transition-all bg-transparent border-none focus:outline-none">Resume</a>
             </li>
           </ul>
         </div>
