@@ -88,7 +88,7 @@ const Hero = () => {
                 </motion.a>
 
                 <motion.a
-                     href="https://flippingbook.com/account/online/1049278475/1"
+                     href="https://drive.google.com/file/d/1hNt7AbjJdh9hX3f4-23RYFC42P2vESJi/view?usp=drivesdk"
                     target="_blank"
                     rel="noopener noreferrer"
 
