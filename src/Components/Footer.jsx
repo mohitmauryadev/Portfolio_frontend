@@ -70,7 +70,9 @@ const Footer = () => {
             </li>
             <li>
               <button
-                onClick={() => handleScroll("resume")}
+                 href="https://drive.google.com/file/d/1hNt7AbjJdh9hX3f4-23RYFC42P2vESJi/view?usp=drivesdk"
+                    target="_blank"
+                    rel="noopener noreferrer"
                 className="hover:text-cyan-400 transition-all bg-transparent border-none focus:outline-none"
               >
                 Resume
